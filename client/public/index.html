@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+	<title>HackRU 2022 - ASCII Client</title>
+	<meta charset="utf-8" />
+	<meta name="mobile-web-app-capable" content="yes">
+</head>
+<body>
+	<h1 id="info">Allow Camera. You must use Google Chrome or Firebox</h1>
+
+	<pre id="ascii"></pre>
+	<button id="button">start</button>
+
+	<script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>	<script src="script/camera.js"></script>
+	<script src="script/ascii.js"></script> 
+	<script src="script/app.js"></script>
+	<script>
+		const SERVER_TUNNEL_URL = "http://35bd-128-6-36-231.ngrok.io" // to do: replace with heroku instance
+		const socket = io.connect(SERVER_TUNNEL_URL);
+
+		try {
+			socket.on('connect', () => {
+				setInterval(function() {
+					const text = document.getElementById("ascii").innerHTML.valueOf();
+					socket.emit('chat message', text);
+
+				}, 50);
+			})
+		} catch (e) {
+			console.log(e);
+		}
+
+
+	</script>
+</body>
+</html>
